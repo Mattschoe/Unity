@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public AudioSource sound;
     public float Speed = 20;
     public Rigidbody Rb;
     // Start is called before the first frame update
@@ -38,6 +39,14 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A)|| Input.GetKey(KeyCode.D)|| Input.GetKey(KeyCode.S))
         {
             Rb.AddRelativeForce(0, 0, Speed);
+        }
+        if (Rb.velocity.magnitude > 0 && sound.isPlaying == false)
+        {
+            sound.Play();
+        }
+        else if(Rb.velocity.magnitude <=0 && sound.isPlaying == true)
+        {
+            sound.Stop();
         }
     }
 }
