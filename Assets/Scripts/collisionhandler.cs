@@ -11,6 +11,7 @@ public class collisionhandler : MonoBehaviour
     public AudioSource death1;
     public AudioSource death2;
     public AudioSource death3;
+    public AudioSource death4;
     public AudioSource source;
     public Text lose;
     public GameObject ghost1;
@@ -23,7 +24,7 @@ public class collisionhandler : MonoBehaviour
     {
         lose.enabled = false;
         StartCoroutine(StartAI());
-        deathvalue = Mathf.FloorToInt(Random.Range(1, 4));
+        deathvalue = Mathf.FloorToInt(Random.Range(1, 5));
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -31,6 +32,7 @@ public class collisionhandler : MonoBehaviour
         if(collision.collider.tag == "Ghost")
         {
             GetComponent<PlayerController>().enabled = false;
+            GetComponent<BoxCollider>().enabled = false;
             ghost1.GetComponent<AI>().enabled = false;
             ghost2.GetComponent<AI>().enabled = false;
             ghost3.GetComponent<AI>().enabled = false;
@@ -44,9 +46,12 @@ public class collisionhandler : MonoBehaviour
             {
                 death2.Play();
             }
-            else
+            else if(deathvalue == 3)
             {
                 death3.Play();
+            }else
+            {
+                death4.Play();
             }
             source.Stop();
             lose.enabled = true;
@@ -64,9 +69,9 @@ public class collisionhandler : MonoBehaviour
         ghost3.GetComponent<AI>().enabled = true;
         yield return new WaitForSecondsRealtime(10);
         ghost2.GetComponent<AI>().enabled = true;
-        yield return new WaitForSecondsRealtime(15);
+        yield return new WaitForSecondsRealtime(20);
         ghost1.GetComponent<AI>().enabled = true;
-        yield return new WaitForSecondsRealtime(15);
+        yield return new WaitForSecondsRealtime(30);
         ghost4.GetComponent<AI>().enabled = true;
     }
 }
