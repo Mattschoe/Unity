@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class gameController : MonoBehaviour
 {
+    public bool ispaused;
     public GameObject ghost1;
     public GameObject ghost2;
     public GameObject ghost3;
@@ -13,6 +14,10 @@ public class gameController : MonoBehaviour
     public GameObject Player;
     public Text win;
     public Text score;
+    public Text pause;
+    public Button quit;
+    public Text quittext;
+    public Image img;
     public AudioSource source;
     // Start is called before the first frame update
     void Start()
@@ -20,7 +25,7 @@ public class gameController : MonoBehaviour
         Time.timeScale = 1f;
         win.enabled = false;
         score.enabled = true;
-        
+        ispaused = false;
     }
 
     // Update is called once per frame
@@ -40,6 +45,32 @@ public class gameController : MonoBehaviour
             win.enabled = true;
             StartCoroutine(WinProcess());
         }
+        if (Input.GetKeyDown(KeyCode.Escape) && ispaused == false)
+        {
+            Player.GetComponent<PlayerController>().enabled = false;
+            source.Stop();
+            ispaused = true;
+            Time.timeScale = 0f;
+            score.enabled = false;
+            pause.enabled = true;
+            quit.enabled = true;
+            quittext.enabled = true;
+            img.enabled = true;
+        }else if (Input.GetKeyDown(KeyCode.Escape) && ispaused == true)
+        {
+            Player.GetComponent<PlayerController>().enabled = true;
+            ispaused = false;
+            Time.timeScale = 1f;
+            score.enabled = true;
+            pause.enabled = false;
+            quit.enabled = false;
+            quittext.enabled = false;
+            img.enabled = false;
+        }
+    }
+    public void mainmenu()
+    {
+        SceneManager.LoadScene(0);
     }
 
     IEnumerator WinProcess()
